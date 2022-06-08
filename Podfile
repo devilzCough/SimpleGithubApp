@@ -8,6 +8,7 @@ target 'GithubApp' do
   # Pods for GithubApp
   pod 'RxSwift', '6.5.0'
   pod 'RxCocoa', '6.5.0'
+  pod 'SnapKit', '~> 5.6.0'
 
   target 'GithubAppTests' do
     inherit! :search_paths
