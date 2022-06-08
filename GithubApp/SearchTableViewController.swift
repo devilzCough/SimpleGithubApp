@@ -12,7 +12,20 @@ class SearchTableViewController: UITableViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        view.backgroundColor = .blue
+        configure()
+    }
+    
+    private func configure() {
+        
+        let searchController = UISearchController(searchResultsController: nil)
+        searchController.searchBar.placeholder = "Search"
+        searchController.searchBar.scopeButtonTitles = [
+            "User", "Repository"
+        ]
+        navigationItem.searchController = searchController
+
+        navigationItem.title = "Search"
+        navigationController?.navigationBar.prefersLargeTitles = true
     }
 
     // MARK: - Table view data source
