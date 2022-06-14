@@ -10,6 +10,8 @@ import SnapKit
 
 class UserTableViewCell: UITableViewCell {
     
+    var user: User?
+    
     let profileImageView = UIImageView()
     let nameLabel = UILabel()
     let repositoryLabel = UILabel()
@@ -24,8 +26,10 @@ class UserTableViewCell: UITableViewCell {
             contentView.addSubview($0)
         }
         
+        guard let user = user else { return }
+        
         profileImageView.image = UIImage(systemName: "star")
-        nameLabel.text = "user_id"
+        nameLabel.text = user.login
         repositoryLabel.text = "Number of repos : 3"
         
         
