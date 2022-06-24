@@ -19,7 +19,7 @@ enum GithubAPI: String {
 
 class SearchTableViewController: UITableViewController {
     
-    private var input = "devil"
+    private var input = "jin"
     
     private let users = BehaviorSubject<[User]>(value: [])
     private let disposeBag = DisposeBag()
@@ -27,21 +27,16 @@ class SearchTableViewController: UITableViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        configureSearchView()
+        attribute()
         configure()
         
         fetch(about: .user, of: input)
     }
     
-    private func configureSearchView() {
+    private func attribute() {
         
-        let searchController = UISearchController(searchResultsController: nil)
-        searchController.searchBar.placeholder = "Search"
-        searchController.searchBar.scopeButtonTitles = [
-            "User", "Repository"
-        ]
-        navigationItem.searchController = searchController
-
+        navigationItem.searchController = SearchBar()
+        
         navigationItem.title = "Search"
         navigationController?.navigationBar.prefersLargeTitles = true
     }
