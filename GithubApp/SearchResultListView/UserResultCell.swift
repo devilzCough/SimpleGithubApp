@@ -10,6 +10,8 @@ import SnapKit
 
 class UserResultCell: UITableViewCell {
     
+    static let identifier = "UserResultCell"
+    
     let profileImageView = UIImageView()
     let nameLabel = UILabel()
     let repositoryLabel = UILabel()

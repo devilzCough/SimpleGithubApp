@@ -130,9 +130,7 @@
 				0D0415442848B8C000974C61 /* SceneDelegate.swift */,
 				0D0415722848B9E800974C61 /* SearchTableViewController.swift */,
 				0DA43E9F28659467005899F0 /* SearchBar */,
-				0DBF954E2872A97200E15680 /* SearchResultListView.swift */,
-				0DBF95502872A9E200E15680 /* SearchResultListViewModel.swift */,
-				0D04276A2850761C007CECBA /* UserResultCell.swift */,
+				0DBF95552872ACA900E15680 /* SearchResultListView */,
 				0D04154B2848B8C300974C61 /* Assets.xcassets */,
 				0D04154D2848B8C300974C61 /* LaunchScreen.storyboard */,
 				0D0415502848B8C300974C61 /* Info.plist */,
@@ -173,6 +171,16 @@
 				0DA43D782851E6F9005899F0 /* User.swift */,
 			);
 			path = Entities;
+			sourceTree = "<group>";
+		};
+		0DBF95552872ACA900E15680 /* SearchResultListView */ = {
+			isa = PBXGroup;
+			children = (
+				0DBF954E2872A97200E15680 /* SearchResultListView.swift */,
+				0DBF95502872A9E200E15680 /* SearchResultListViewModel.swift */,
+				0D04276A2850761C007CECBA /* UserResultCell.swift */,
+			);
+			path = SearchResultListView;
 			sourceTree = "<group>";
 		};
 		991655DEDF7528088E6BF94F /* Frameworks */ = {
