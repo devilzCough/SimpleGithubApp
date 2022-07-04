@@ -42,7 +42,7 @@ class SearchTableViewController: UITableViewController {
     }
     
     private func configure() {
-        tableView.register(UserTableViewCell.self, forCellReuseIdentifier: "UserTableViewCell")
+        tableView.register(UserResultCell.self, forCellReuseIdentifier: "UserTableViewCell")
         tableView.rowHeight = 100
     }
 
@@ -104,7 +104,7 @@ extension SearchTableViewController {
     }
 
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        guard let cell = tableView.dequeueReusableCell(withIdentifier: "UserTableViewCell", for: indexPath) as? UserTableViewCell else { return UITableViewCell() }
+        guard let cell = tableView.dequeueReusableCell(withIdentifier: "UserTableViewCell", for: indexPath) as? UserResultCell else { return UITableViewCell() }
         
 
         var user: User? {

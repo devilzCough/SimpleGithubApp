@@ -8,9 +8,7 @@
 import UIKit
 import SnapKit
 
-class UserTableViewCell: UITableViewCell {
-    
-    var user: User?
+class UserResultCell: UITableViewCell {
     
     let profileImageView = UIImageView()
     let nameLabel = UILabel()
@@ -25,13 +23,6 @@ class UserTableViewCell: UITableViewCell {
         ].forEach {
             contentView.addSubview($0)
         }
-        
-        guard let user = user else { return }
-        
-        profileImageView.image = UIImage(systemName: "star")
-        nameLabel.text = user.login
-        repositoryLabel.text = "Number of repos : 3"
-        
         
         profileImageView.snp.makeConstraints {
             $0.leading.equalToSuperview().offset(20)
@@ -51,5 +42,12 @@ class UserTableViewCell: UITableViewCell {
             $0.centerY.equalTo(self).offset(18)
             $0.trailing.equalTo(nameLabel)
         }
+    }
+    
+    func configureData(_ user: User) {
+        
+        profileImageView.image = UIImage(systemName: "star")
+        nameLabel.text = user.login
+        repositoryLabel.text = "Number of repos : 3"
     }
 }
