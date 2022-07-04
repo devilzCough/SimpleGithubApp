@@ -17,33 +17,45 @@ enum GithubAPI: String {
     }
 }
 
-class SearchTableViewController: UITableViewController {
+class SearchViewController: UIViewController {
     
     private var input = "jin"
     
-    private let users = BehaviorSubject<[User]>(value: [])
+    let searchBar = SearchBar()
+    let resultTableView = SearchResultListView()
+    
+    // temp
+    let resultViewModel = SearchResultListViewModel()
+    
     private let disposeBag = DisposeBag()
 
     override func viewDidLoad() {
         super.viewDidLoad()
 
+        resultTableView.bind(resultViewModel)
         attribute()
-        configure()
-        
+        layout()
+
         fetch(about: .user, of: input)
     }
     
     private func attribute() {
         
-        navigationItem.searchController = SearchBar()
+        view.backgroundColor = .white
+        navigationItem.searchController = searchBar
         
         navigationItem.title = "Search"
         navigationController?.navigationBar.prefersLargeTitles = true
     }
     
-    private func configure() {
-        tableView.register(UserResultCell.self, forCellReuseIdentifier: "UserTableViewCell")
-        tableView.rowHeight = 100
+    private func layout() {
+        
+        view.addSubview(resultTableView)
+        
+        resultTableView.snp.makeConstraints {
+            $0.top.equalTo(view.safeAreaLayoutGuide)
+            $0.leading.trailing.bottom.equalToSuperview()
+        }
     }
 
     func fetch(about api: GithubAPI, of query: String) {
@@ -83,39 +95,12 @@ class SearchTableViewController: UITableViewController {
                 }
             }
             .subscribe(onNext: { [weak self] newUsers in
-                self?.users.onNext(newUsers)
+                self?.resultViewModel.searchResultData.onNext(newUsers)
                 
                 DispatchQueue.main.async {
-                    self?.tableView.reloadData()
+                    self?.resultTableView.reloadData()
                 }
             })
             .disposed(by: disposeBag)
-    }
-}
-
-extension SearchTableViewController {
-    override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        
-        do {
-            return try users.value().count
-        } catch {
-            return 0
-        }
-    }
-
-    override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        guard let cell = tableView.dequeueReusableCell(withIdentifier: "UserTableViewCell", for: indexPath) as? UserResultCell else { return UITableViewCell() }
-        
-
-        var user: User? {
-            do {
-                return try users.value()[indexPath.row]
-            } catch {
-                return nil
-            }
-        }
-        
-        cell.user = user
-        return cell
     }
 }
