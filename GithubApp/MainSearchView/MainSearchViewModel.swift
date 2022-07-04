@@ -1,65 +1,54 @@
 //
-//  SearchTableViewController.swift
+//  MainSearchViewModel.swift
 //  GithubApp
 //
-//  Created by jiniz.ll on 2022/06/02.
+//  Created by jiniz.ll on 2022/07/04.
 //
 
-import UIKit
+import Foundation
 import RxSwift
 import RxCocoa
 
-enum GithubAPI: String {
+enum GithubAPI: String, CaseIterable {
+    
     case user = "https://api.github.com/search/users?q="
+    case repository = "https://api.github.com/search/repositories?q="
     
     var url: String {
         return self.rawValue
     }
-}
-
-class SearchViewController: UIViewController {
     
-    private var input = "jin"
-    
-    let searchBar = SearchBar()
-    let resultTableView = SearchResultListView()
-    
-    // temp
-    let resultViewModel = SearchResultListViewModel()
-    
-    private let disposeBag = DisposeBag()
-
-    override func viewDidLoad() {
-        super.viewDidLoad()
-
-        resultTableView.bind(resultViewModel)
-        attribute()
-        layout()
-
-        fetch(about: .user, of: input)
-    }
-    
-    private func attribute() {
-        
-        view.backgroundColor = .white
-        navigationItem.searchController = searchBar
-        
-        navigationItem.title = "Search"
-        navigationController?.navigationBar.prefersLargeTitles = true
-    }
-    
-    private func layout() {
-        
-        view.addSubview(resultTableView)
-        
-        resultTableView.snp.makeConstraints {
-            $0.top.equalTo(view.safeAreaLayoutGuide)
-            $0.leading.trailing.bottom.equalToSuperview()
+    var name: String {
+        switch self {
+        case .user: return "User"
+        case .repository: return "Repository"
         }
     }
+}
 
-    func fetch(about api: GithubAPI, of query: String) {
-        Observable.of(query)
+struct MainSearchViewModel {
+    
+    let disposeBag = DisposeBag()
+    
+    let searchBarViewModel = SearchBarViewModel()
+    let searchResultListViewModel = SearchResultListViewModel()
+    
+    init() {
+        
+        let searchResult = searchBarViewModel.shouldLoadResult
+            .flatMapLatest { [self] (query, type) in
+                fetch(about: type, of: query)
+            }
+            .share()
+        
+        searchResult
+            .bind(to: searchResultListViewModel.searchResultData)
+            .disposed(by: disposeBag)
+    }
+    
+    func fetch(about api: GithubAPI, of query: String) -> Observable<[User]> {
+        
+        let result = Observable.of(query)
             .map { query -> URL in
                 return URL(string: api.url + "\(query)")!
             }
@@ -94,13 +83,7 @@ class SearchViewController: UIViewController {
                     return User(id: id, login: login, avatarUrl: avatarUrl, reposUrl: reposUrl)
                 }
             }
-            .subscribe(onNext: { [weak self] newUsers in
-                self?.resultViewModel.searchResultData.onNext(newUsers)
-                
-                DispatchQueue.main.async {
-                    self?.resultTableView.reloadData()
-                }
-            })
-            .disposed(by: disposeBag)
+        
+        return result
     }
 }

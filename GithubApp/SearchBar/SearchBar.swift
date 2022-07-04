@@ -14,9 +14,7 @@ class SearchBar: UISearchController {
     
     let disposeBag = DisposeBag()
     
-    let searchType = [
-        "User", "Repository"
-    ]
+    let searchType = GithubAPI.allCases
     
     override init(searchResultsController: UIViewController? = nil) {
         super.init(searchResultsController: searchResultsController)
@@ -57,7 +55,7 @@ class SearchBar: UISearchController {
     
     private func attribute() {
         self.searchBar.placeholder = "Search"
-        self.searchBar.scopeButtonTitles = searchType
+        self.searchBar.scopeButtonTitles = searchType.map { $0.name }
     }
 }
 

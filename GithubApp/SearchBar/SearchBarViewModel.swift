@@ -12,18 +12,18 @@ import RxCocoa
 struct SearchBarViewModel {
     
     let queryText = PublishRelay<String?>()
-    let queryType = PublishRelay<String>()
+    let queryType = PublishRelay<GithubAPI>()
     
     let searchButtonTapped = PublishRelay<Void>()
     
     // -> SearchVC
-    let shouldLoadResult: Observable<(String, String)>
+    let shouldLoadResult: Observable<(String, GithubAPI)>
     
     init() {
         
         shouldLoadResult = searchButtonTapped
             .withLatestFrom(
-                Observable.combineLatest(queryText, queryType) { text, type -> (String, String) in
+                Observable.combineLatest(queryText, queryType) { text, type -> (String, GithubAPI) in
                     return (text ?? "", type)
                 }
             ) { $1 }

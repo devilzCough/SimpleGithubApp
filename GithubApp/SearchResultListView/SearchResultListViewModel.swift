@@ -9,7 +9,7 @@ import Foundation
 import RxSwift
 import RxCocoa
 
-class SearchResultListViewModel {
+struct SearchResultListViewModel {
     
     // SearchViewController 에서 네트워크 작업 -> SearchResultListView
     let searchResultData = PublishSubject<[User]>()
