@@ -7,6 +7,7 @@
 
 import UIKit
 import SnapKit
+import Kingfisher
 
 class UserResultCell: UITableViewCell {
     
@@ -48,7 +49,9 @@ class UserResultCell: UITableViewCell {
     
     func configureData(_ user: User) {
         
-        profileImageView.image = UIImage(systemName: "star")
+        let url = URL(string: user.avatarUrl)
+        profileImageView.kf.setImage(with: url)
+        
         nameLabel.text = user.login
         repositoryLabel.text = "Number of repos : 3"
     }
