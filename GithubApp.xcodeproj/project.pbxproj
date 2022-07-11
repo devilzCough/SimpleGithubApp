@@ -22,6 +22,11 @@
 		0DBF954F2872A97200E15680 /* SearchResultListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0DBF954E2872A97200E15680 /* SearchResultListView.swift */; };
 		0DBF95512872A9E200E15680 /* SearchResultListViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0DBF95502872A9E200E15680 /* SearchResultListViewModel.swift */; };
 		0DBF95582872CFB100E15680 /* MainSearchViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0DBF95572872CFB100E15680 /* MainSearchViewModel.swift */; };
+		0DBF974F2876CFB100E15680 /* SearchGithubNetwork.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0DBF974E2876CFB100E15680 /* SearchGithubNetwork.swift */; };
+		0DBF97512877ED8600E15680 /* SearchGithubAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0DBF97502877ED8600E15680 /* SearchGithubAPI.swift */; };
+		0DBF97532877F70B00E15680 /* MainSearchModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0DBF97522877F70B00E15680 /* MainSearchModel.swift */; };
+		0DBF97552878055600E15680 /* Repository.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0DBF97542878055600E15680 /* Repository.swift */; };
+		0DBF975A2878371A00E15680 /* SearchResult.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0DBF97592878371A00E15680 /* SearchResult.swift */; };
 		6C24567B40AECC05759DF85E /* Pods_GithubApp_GithubAppUITests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AE7D333CFF31F9FD297DE4DA /* Pods_GithubApp_GithubAppUITests.framework */; };
 		AD86A140108962CAD86B2CB6 /* Pods_GithubApp.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DCC12243C00D7B549D317C51 /* Pods_GithubApp.framework */; };
 		F16ECC516CA2B2245437C39D /* Pods_GithubAppTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 620EFAC20253832CC3B82154 /* Pods_GithubAppTests.framework */; };
@@ -64,6 +69,11 @@
 		0DBF954E2872A97200E15680 /* SearchResultListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchResultListView.swift; sourceTree = "<group>"; };
 		0DBF95502872A9E200E15680 /* SearchResultListViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchResultListViewModel.swift; sourceTree = "<group>"; };
 		0DBF95572872CFB100E15680 /* MainSearchViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainSearchViewModel.swift; sourceTree = "<group>"; };
+		0DBF974E2876CFB100E15680 /* SearchGithubNetwork.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchGithubNetwork.swift; sourceTree = "<group>"; };
+		0DBF97502877ED8600E15680 /* SearchGithubAPI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchGithubAPI.swift; sourceTree = "<group>"; };
+		0DBF97522877F70B00E15680 /* MainSearchModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainSearchModel.swift; sourceTree = "<group>"; };
+		0DBF97542878055600E15680 /* Repository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Repository.swift; sourceTree = "<group>"; };
+		0DBF97592878371A00E15680 /* SearchResult.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchResult.swift; sourceTree = "<group>"; };
 		2D7BEA33A988342458D5BDA3 /* Pods-GithubApp-GithubAppUITests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-GithubApp-GithubAppUITests.release.xcconfig"; path = "Target Support Files/Pods-GithubApp-GithubAppUITests/Pods-GithubApp-GithubAppUITests.release.xcconfig"; sourceTree = "<group>"; };
 		31699C2A646E3240BFA6B9B4 /* Pods-GithubApp.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-GithubApp.debug.xcconfig"; path = "Target Support Files/Pods-GithubApp/Pods-GithubApp.debug.xcconfig"; sourceTree = "<group>"; };
 		620EFAC20253832CC3B82154 /* Pods_GithubAppTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_GithubAppTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -130,6 +140,7 @@
 			children = (
 				0D0415422848B8C000974C61 /* AppDelegate.swift */,
 				0D0415442848B8C000974C61 /* SceneDelegate.swift */,
+				0DBF97562878061800E15680 /* Network */,
 				0DBF95562872CEA800E15680 /* MainSearchView */,
 				0DA43E9F28659467005899F0 /* SearchBar */,
 				0DBF95552872ACA900E15680 /* SearchResultListView */,
@@ -171,6 +182,8 @@
 			isa = PBXGroup;
 			children = (
 				0DA43D782851E6F9005899F0 /* User.swift */,
+				0DBF97542878055600E15680 /* Repository.swift */,
+				0DBF97592878371A00E15680 /* SearchResult.swift */,
 			);
 			path = Entities;
 			sourceTree = "<group>";
@@ -190,8 +203,18 @@
 			children = (
 				0D0415722848B9E800974C61 /* MainSearchViewController.swift */,
 				0DBF95572872CFB100E15680 /* MainSearchViewModel.swift */,
+				0DBF97522877F70B00E15680 /* MainSearchModel.swift */,
 			);
 			path = MainSearchView;
+			sourceTree = "<group>";
+		};
+		0DBF97562878061800E15680 /* Network */ = {
+			isa = PBXGroup;
+			children = (
+				0DBF974E2876CFB100E15680 /* SearchGithubNetwork.swift */,
+				0DBF97502877ED8600E15680 /* SearchGithubAPI.swift */,
+			);
+			path = Network;
 			sourceTree = "<group>";
 		};
 		991655DEDF7528088E6BF94F /* Frameworks */ = {
@@ -456,11 +479,16 @@
 			buildActionMask = 2147483647;
 			files = (
 				0D04276B2850761C007CECBA /* UserResultCell.swift in Sources */,
+				0DBF97532877F70B00E15680 /* MainSearchModel.swift in Sources */,
 				0DBF954F2872A97200E15680 /* SearchResultListView.swift in Sources */,
 				0D0415432848B8C000974C61 /* AppDelegate.swift in Sources */,
 				0D0415452848B8C000974C61 /* SceneDelegate.swift in Sources */,
 				0DBF95512872A9E200E15680 /* SearchResultListViewModel.swift in Sources */,
 				0DBF95582872CFB100E15680 /* MainSearchViewModel.swift in Sources */,
+				0DBF975A2878371A00E15680 /* SearchResult.swift in Sources */,
+				0DBF97552878055600E15680 /* Repository.swift in Sources */,
+				0DBF974F2876CFB100E15680 /* SearchGithubNetwork.swift in Sources */,
+				0DBF97512877ED8600E15680 /* SearchGithubAPI.swift in Sources */,
 				0DA43D792851E6F9005899F0 /* User.swift in Sources */,
 				0D0415732848B9E800974C61 /* MainSearchViewController.swift in Sources */,
 				0DA43E9C28659454005899F0 /* SearchBar.swift in Sources */,

@@ -49,7 +49,7 @@ class UserResultCell: UITableViewCell {
     
     func configureData(_ user: User) {
         
-        let url = URL(string: user.avatarUrl)
+        guard let url = URL(string: user.avatarURL) else { return }
         profileImageView.kf.setImage(with: url)
         
         nameLabel.text = user.login

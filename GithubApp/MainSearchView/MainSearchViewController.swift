@@ -11,8 +11,6 @@ import RxCocoa
 
 class MainSearchViewController: UIViewController {
     
-    private var input = "jin"
-    
     let searchBar = SearchBar()
     let resultTableView = SearchResultListView()
     
