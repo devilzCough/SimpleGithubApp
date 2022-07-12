@@ -8,6 +8,19 @@
 import UIKit
 import RxSwift
 import RxCocoa
+import RxDataSources
+
+typealias SectionOfSearchResult = SectionModel<TableViewSection, TableViewItem>
+
+enum TableViewSection {
+    case user
+    case repository
+}
+
+enum TableViewItem {
+    case user(result: User)
+    case repository(result: Repository)
+}
 
 class SearchResultListView: UITableView {
     
@@ -28,6 +41,7 @@ class SearchResultListView: UITableView {
         // 받아온 데이터 -> 테이블 뷰 셀에 바인딩
         viewModel.cellData
             .drive(self.rx.items) { tableView, row, data in
+                
                 let indexPath = IndexPath(row: row, section: 0)
                 guard let cell = tableView.dequeueReusableCell(withIdentifier: UserResultCell.identifier, for: indexPath) as? UserResultCell else { return UITableViewCell() }
                 cell.configureData(data)
@@ -39,6 +53,7 @@ class SearchResultListView: UITableView {
     private func attribute() {
         self.backgroundColor = .white
         self.register(UserResultCell.self, forCellReuseIdentifier: UserResultCell.identifier)
+        self.register(RepositoryResultCell.self, forCellReuseIdentifier: RepositoryResultCell.identifier)
         self.separatorStyle = .singleLine
         self.rowHeight = 100
     }

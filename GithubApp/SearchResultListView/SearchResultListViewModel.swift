@@ -12,9 +12,9 @@ import RxCocoa
 struct SearchResultListViewModel {
     
     // SearchViewController 에서 네트워크 작업 -> SearchResultListView
-    let searchResultData = PublishSubject<[User]>()
+    let searchResultData = PublishSubject<[SectionOfSearchResult]>()
     // 받아온 데이터를 View에서 사용하기 위함
-    let cellData: Driver<[User]>
+    let cellData: Driver<[SectionOfSearchResult]>
     
     init() {
         self.cellData = searchResultData
