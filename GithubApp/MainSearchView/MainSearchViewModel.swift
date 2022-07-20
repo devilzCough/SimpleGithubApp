@@ -23,11 +23,11 @@ struct MainSearchViewModel {
             .share()
         
         
-        let searchValue = searchResult
-            .compactMap(model.getSearchValue)
-        
-        let searchError = searchResult
-            .compactMap(model.getSearchError)
+//        let searchValue = searchResult
+//            .compactMap(model.getSearchValue)
+//
+//        let searchError = searchResult
+//            .compactMap(model.getSearchError)
         
         searchValue
             .bind(to: searchResultListViewModel.searchResultData)

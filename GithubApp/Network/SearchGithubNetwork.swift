@@ -25,8 +25,8 @@ class SearchGithubNetwork {
         
     }
     
-    func searchList(about query: String, with api: GithubAPI) -> Single<Result<[User], SearchNetworkError>> {
-
+    func searchList(about query: String, type api: GithubAPI) -> Single<Result<[TableViewItem], SearchNetworkError>> {
+            
         guard let url = githubAPI.search(query: query, type: api).url else {
             return .just(.failure(.invalidURL))
         }
@@ -35,30 +35,51 @@ class SearchGithubNetwork {
         request.httpMethod = "GET"
         
         return session.rx.data(request: request)
-            .map { data -> [[String: Any]] in
-                    guard let json = try? JSONSerialization.jsonObject(with: data),
-                          let result = json as? [String: Any],
-                          let items = result["items"] as? [[String: Any]] else { return [] }
-                    return items
-            }
-            .filter { result in
-                return result.count > 0
+            .compactMap { data -> Data? in
+                guard let json = try? JSONSerialization.jsonObject(with: data),
+                      let result = json as? [String: Any],
+                      let items = result["items"] else { return nil }
+                return items as? Data
             }
             .map { objects in
-                let result =  objects.compactMap { dic -> User? in
-                    guard let id = dic["id"] as? Int,
-                          let login = dic["login"] as? String,
-                          let avatarUrl = dic["avatar_url"] as? String,
-                          let reposUrl = dic["repos_url"] as? String else {
-                        return nil
+                do {
+                    let results = try objects.compactMap { item -> TableViewItem? in
+                        let data = Data([item])
+                        switch api {
+                        case .user:
+                            let result = try JSONDecoder().decode(User.self, from: data)
+                            return TableViewItem.user(result: result)
+                        case .repository:
+                            let result = try JSONDecoder().decode(Repository.self, from: data)
+                            return TableViewItem.repository(result: result)
+                        }
                     }
-                    return User(id: id, login: login, avatarURL: avatarUrl, reposURL: reposUrl)
+                    return .success(results)
                 }
-                return .success(result)
+                catch {
+                    return .failure(.invalidJSON)
+                }
+                
             }
             .catch { _ in
                     .just(.failure(.networkError))
             }
             .asSingle()
+        
+        
+        
+//        return session.rx.data(request: request as URLRequest)
+//            .map { data in
+//                do {
+//                    let blogData = try JSONDecoder().decode(KakaoBlog.self, from: data)
+//                    return .success(blogData)
+//                } catch {
+//                    return .failure(.invalidJSON)
+//                }
+//            }
+//            .catch { _ in
+//                    .just(.failure(.networkError))
+//            }
+//            .asSingle()
     }
 }
