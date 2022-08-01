@@ -8,6 +8,7 @@
 import Foundation
 
 struct User: Decodable {
+    
     let id: Int?
     let login: String?
     let avatarURL: String?
@@ -20,6 +21,7 @@ struct User: Decodable {
     }
     
     init(from decoder: Decoder) throws {
+        
         let values = try decoder.container(keyedBy: CodingKeys.self)
         
         self.id = try? values.decode(Int?.self, forKey: .id)

@@ -12,22 +12,17 @@ import RxCocoa
 struct SearchBarViewModel {
     
     let queryText = PublishRelay<String?>()
-    let queryType = PublishRelay<GithubAPI>()
     
     let searchButtonTapped = PublishRelay<Void>()
     
     // -> SearchVC
-    let shouldLoadResult: Observable<(String, GithubAPI)>
+    let shouldLoadResult: Observable<String>
     
     init() {
         
         shouldLoadResult = searchButtonTapped
-            .withLatestFrom(
-                Observable.combineLatest(queryText, queryType) { text, type -> (String, GithubAPI) in
-                    return (text ?? "", type)
-                }
-            ) { $1 }
-            .filter { !($0.0.isEmpty) }
-            .distinctUntilChanged() { $0.0 }
+            .withLatestFrom(queryText) { $1 ?? "" }
+            .filter { !$0.isEmpty }
+            .distinctUntilChanged()
     }
 }

@@ -14,8 +14,6 @@ class SearchBar: UISearchController {
     
     let disposeBag = DisposeBag()
     
-    let searchType = GithubAPI.allCases
-    
     override init(searchResultsController: UIViewController? = nil) {
         super.init(searchResultsController: searchResultsController)
         
@@ -31,12 +29,6 @@ class SearchBar: UISearchController {
         // 검색 내용을 queryText로
         self.searchBar.rx.text
             .bind(to: viewModel.queryText)
-            .disposed(by: disposeBag)
-        
-        // 선택된 scopeBarButton 정보를 queryType으로
-        self.searchBar.rx.selectedScopeButtonIndex
-            .map { self.searchType[$0] }
-            .bind(to: viewModel.queryType)
             .disposed(by: disposeBag)
         
         // 키보드에서 보여지는 search 버튼 클릭시, searchButtonTapped로
@@ -55,7 +47,6 @@ class SearchBar: UISearchController {
     
     private func attribute() {
         self.searchBar.placeholder = "Search"
-        self.searchBar.scopeButtonTitles = searchType.map { $0.name }
     }
 }
 

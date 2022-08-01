@@ -25,7 +25,7 @@ class SearchGithubNetwork {
         
     }
     
-    func searchList(about query: String, type api: GithubAPI) -> Single<Result<[TableViewItem], SearchNetworkError>> {
+    func searchList(about query: String, type api: GithubAPI) -> Single<Result<[SectionOfSearchResult], SearchNetworkError>> {
             
         guard let url = githubAPI.search(query: query, type: api).url else {
             return .just(.failure(.invalidURL))
@@ -43,18 +43,21 @@ class SearchGithubNetwork {
             }
             .map { objects in
                 do {
-                    let results = try objects.compactMap { item -> TableViewItem? in
+                    let items = try objects.compactMap { item -> GithubResultItem? in
                         let data = Data([item])
                         switch api {
                         case .user:
-                            let result = try JSONDecoder().decode(User.self, from: data)
-                            return TableViewItem.user(result: result)
+                            let item = try JSONDecoder().decode(User.self, from: data)
+                            return GithubResultItem.user(result: item)
                         case .repository:
-                            let result = try JSONDecoder().decode(Repository.self, from: data)
-                            return TableViewItem.repository(result: result)
+                            let item = try JSONDecoder().decode(Repository.self, from: data)
+                            return GithubResultItem.repository(result: item)
                         }
                     }
-                    return .success(results)
+                    
+                    let result = [SectionOfSearchResult(model: api.section, items: items)]
+                    
+                    return .success(result)
                 }
                 catch {
                     return .failure(.invalidJSON)
@@ -65,21 +68,5 @@ class SearchGithubNetwork {
                     .just(.failure(.networkError))
             }
             .asSingle()
-        
-        
-        
-//        return session.rx.data(request: request as URLRequest)
-//            .map { data in
-//                do {
-//                    let blogData = try JSONDecoder().decode(KakaoBlog.self, from: data)
-//                    return .success(blogData)
-//                } catch {
-//                    return .failure(.invalidJSON)
-//                }
-//            }
-//            .catch { _ in
-//                    .just(.failure(.networkError))
-//            }
-//            .asSingle()
     }
 }
