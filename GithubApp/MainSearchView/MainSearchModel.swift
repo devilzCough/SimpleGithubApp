@@ -12,7 +12,7 @@ struct MainSearchModel {
     
     let network = SearchGithubNetwork.shared
     
-    func search(_ query: String) -> Single<Result<[SectionOfSearchResult], SearchNetworkError>> {
+    func search(_ query: String) -> Single<Result<Items, SearchNetworkError>> {
         
         let result = Observable.from(GithubAPI.allCases)
             .concatMap { api in
@@ -23,7 +23,7 @@ struct MainSearchModel {
         return result
     }
     
-    func getSearchValue(_ result: Result<[SectionOfSearchResult], SearchNetworkError>) -> [SectionOfSearchResult]? {
+    func getSearchValue(_ result: Result<Items, SearchNetworkError>) -> Items? {
         
         guard case .success(let value) = result else {
             return nil
@@ -31,7 +31,7 @@ struct MainSearchModel {
         return value
     }
     
-    func getSearchError(_ result: Result<[SectionOfSearchResult], SearchNetworkError>) -> String? {
+    func getSearchError(_ result: Result<Items, SearchNetworkError>) -> String? {
         
         guard case .failure(let error) = result else {
             return nil

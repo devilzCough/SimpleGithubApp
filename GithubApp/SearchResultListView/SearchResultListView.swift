@@ -18,6 +18,7 @@ enum GithubResultSection {
 }
 
 enum GithubResultItem {
+    
     case user(result: User)
     case repository(result: Repository)
 }
