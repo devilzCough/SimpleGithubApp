@@ -7,18 +7,24 @@
 
 import XCTest
 import Nimble
+import RxSwift
 @testable import GithubApp
 
 class SearchGithubTests: XCTestCase {
     
-    var results: APIResult!
+    var userResults: APIResult!
     var userItems: Items!
     
+    var repositoryResult: APIResult!
+    var repositoryItems: Items!
 
     override func setUp() {
 
-        self.results = userList
-        self.userItems = results.items
+        self.userResults = userList
+        self.userItems = userResults.items
+        
+        self.repositoryResult = repositoryList
+        self.repositoryItems = repositoryResult.items
     }
     
     func test_loadData() {
@@ -35,13 +41,24 @@ class SearchGithubTests: XCTestCase {
                 equal("jin"),
                 description: users[0].login
             )
-        case .repositories(let items):
-            expect(items.count).to(
+        default:
+            print("userItem Decoding Test")
+        }
+        
+        switch self.repositoryItems {
+            
+        case .repositories(let repositories):
+            expect(repositories.count).to(
                 equal(30),
-                description: "\(items.count)"
+                description: "\(repositories.count)"
             )
-        case .none:
-            print("no data type")
+            
+            expect(repositories[0].fullname).to(
+                equal("jina-ai/jina"),
+                description: repositories[0].fullname
+            )
+        default:
+            print("repositoryItem Decoding Test")
         }
     }
 }
