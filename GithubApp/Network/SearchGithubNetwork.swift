@@ -38,8 +38,8 @@ class SearchGithubNetwork {
         return session.rx.data(request: request)
             .map({ data in
                 do {
-                    let items = try JSONDecoder().decode(Items.self, from: data)
-                    return .success(items)
+                    let result = try JSONDecoder().decode(APIResult.self, from: data)
+                    return .success(result.items)
                 } catch {
                     return .failure(.cannotParseData)
                 }
@@ -48,42 +48,6 @@ class SearchGithubNetwork {
                     .just(.failure(.networkError))
             })
             .asSingle()
-//            .compactMap { data -> Data? in
-//                guard let json = try? JSONSerialization.jsonObject(with: data),
-//                      let result = json as? [String: Any],
-//                      let items = result["items"] else { return nil }
-//                return items as? Data
-//            }
-//            .filter { !$0.isEmpty }
-//            .map { objects in
-//                do {
-//                    let items = try objects.compactMap { item -> GithubResultItem? in
-//
-//                        let data = Data([item])//item as? Data
-//
-//                        switch api {
-//                        case .user:
-//                            let item = try JSONDecoder().decode(User.self, from: data)
-//                            return GithubResultItem.user(result: item)
-//                        case .repository:
-//                            let item = try JSONDecoder().decode(Repository.self, from: data)
-//                            return GithubResultItem.repository(result: item)
-//                        }
-//                    }
-//
-//                    let result = [SectionOfSearchResult(model: api.section, items: items)]
-//
-//                    return .success(result)
-//                }
-//                catch {
-//                    return .failure(.invalidJSON)
-//                }
-//
-//            }
-//            .catch { _ in
-//                    .just(.failure(.networkError))
-//            }
-//            .asSingle()
     }
     
     private func decode(_ data: Data, type api: GithubAPI) throws -> GithubResultItem? {

@@ -15,6 +15,10 @@ target 'GithubApp' do
   target 'GithubAppTests' do
     inherit! :search_paths
     # Pods for testing
+    pod 'Stubber'
+    pod 'Nimble'
+    pod 'RxBlocking'
+    pod 'RxTest'
   end
 
   target 'GithubAppUITests' do

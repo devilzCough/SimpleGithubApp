@@ -26,6 +26,6 @@ enum Items: Decodable {
     }
 }
 
-struct Item: Decodable {
-    let items: String
+struct APIResult: Decodable {
+    let items: Items
 }

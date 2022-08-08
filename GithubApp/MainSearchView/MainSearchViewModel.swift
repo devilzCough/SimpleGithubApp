@@ -16,7 +16,7 @@ struct MainSearchViewModel {
     let searchBarViewModel = SearchBarViewModel()
     let searchResultListViewModel = SearchResultListViewModel()
     
-    private let items = PublishSubject<Items>()
+//    private let items = PublishSubject<Items>()
     
     init(model: MainSearchModel = MainSearchModel()) {
         
@@ -30,9 +30,9 @@ struct MainSearchViewModel {
         let searchError = searchResult
             .compactMap(model.getSearchError)
         
-        searchValue
-            .bind(to: items)
-            .disposed(by: disposeBag)
+//        searchValue
+//            .bind(to: items)
+//            .disposed(by: disposeBag)
         
         searchValue
             .bind(to: searchResultListViewModel.searchResultData)

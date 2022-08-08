@@ -9,12 +9,12 @@ import Foundation
 
 @testable import GithubApp
 
-var userList: [User] = Dummy().load("usersDummy.json")
-var repositoryList: [Repository] = Dummy().load("repositoryDummy.json")
+var userList: APIResult = Dummy().load("usersDummy.json")
+var repositoryList: APIResult = Dummy().load("repositoryDummy.json")
 
 class Dummy {
     
-    func load<T: Decodable>(_ fileName: String) -> T {
+    func load(_ fileName: String) -> APIResult {
         
         let data: Data
         let bundle = Bundle(for: type(of: self))
@@ -31,9 +31,9 @@ class Dummy {
         
         do {
             let decoder = JSONDecoder()
-            return try decoder.decode(T.self, from: data)
+            return try decoder.decode(APIResult.self, from: data)
         } catch {
-            fatalError("\(fileName)을 \(T.self)로 파싱할 수 없습니다.")
+            fatalError("\(fileName)을 Items로 파싱할 수 없습니다.")
         }
     }
 }
