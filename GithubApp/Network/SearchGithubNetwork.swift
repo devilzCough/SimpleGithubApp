@@ -10,7 +10,6 @@ import RxSwift
 
 enum SearchNetworkError: Error {
     case invalidURL
-    case invalidJSON
     case networkError
     case cannotParseData
     case missingToken
@@ -23,7 +22,6 @@ class SearchGithubNetwork {
     private let session = URLSession(configuration: .default)
     private let githubAPI = SearchGithubAPI()
     
-//    private let keys: NSDictionary?
     private var token: String?
     
     private init() {

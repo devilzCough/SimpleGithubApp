@@ -71,6 +71,10 @@ class SearchResultListView: UITableView {
         self.register(RepositoryResultCell.self, forCellReuseIdentifier: RepositoryResultCell.identifier)
         self.separatorStyle = .singleLine
         self.rowHeight = 100
+        
+        searchResultDataSource.titleForHeaderInSection = { dataSource, index in
+            return dataSource.sectionModels[index].model
+        }
     }
 }
 
