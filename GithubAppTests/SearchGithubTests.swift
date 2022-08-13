@@ -27,6 +27,32 @@ class SearchGithubTests: XCTestCase {
         self.repositoryItems = repositoryResult.items
     }
     
+    /*
+    let searchResultListModel = SearchResultListModel()
+    let searchResultData = PublishSubject<Items>()
+    
+    
+    func test_itemsToCellData() async {
+        
+        let items: [String: Observable<Items>] = [
+            "users" : Observable.of(userItems),
+            "repositories": Observable.of(repositoryItems)
+        ]
+        
+        let totalItems = Observable.from(items.keys)
+            .concatMap { api in
+                items[api]!
+            }
+
+        totalItems
+            .bind(to: searchResultData)
+        
+        let cellData = searchResultData
+            .map(self.searchResultListModel.itemsToCellData)
+        
+    }
+    */
+    
     func test_loadData() {
 
         switch self.userItems {

@@ -17,13 +17,13 @@ struct SearchResultListModel {
                 .map { user in
                     GithubResultItem.user(result: user)
                 }
-            return [SectionOfSearchResult(model: .user, items: result)]
+            return [SectionOfSearchResult(model: GithubResultSection.user.title, items: result)]
         case .repositories(let data):
             let result = data
                 .map { repository in
                     GithubResultItem.repository(result: repository)
                 }
-            return [SectionOfSearchResult(model: .repository, items: result)]
+            return [SectionOfSearchResult(model: GithubResultSection.repository.title, items: result)]
         }
     }
 }

@@ -13,6 +13,7 @@ enum SearchNetworkError: Error {
     case invalidJSON
     case networkError
     case cannotParseData
+    case missingToken
 }
 
 class SearchGithubNetwork {
@@ -22,11 +23,21 @@ class SearchGithubNetwork {
     private let session = URLSession(configuration: .default)
     private let githubAPI = SearchGithubAPI()
     
+//    private let keys: NSDictionary?
+    private var token: String?
+    
     private init() {
-        
+        if let path = Bundle.main.path(forResource: "Keys", ofType: "plist"),
+           let keys = NSDictionary(contentsOfFile: path) {
+            token = keys["githubAPIAuthorization"] as? String
+        }
     }
     
     func searchList(about query: String, type api: GithubAPI) -> Single<Result<Items, SearchNetworkError>> {
+        
+        guard let token = token else {
+            return .just(.failure(.missingToken))
+        }
             
         guard let url = githubAPI.search(query: query, type: api).url else {
             return .just(.failure(.invalidURL))
@@ -34,6 +45,7 @@ class SearchGithubNetwork {
         
         var request = URLRequest(url: url)
         request.httpMethod = "GET"
+        request.setValue("token \(token)", forHTTPHeaderField: "Authorization")
         
         return session.rx.data(request: request)
             .map({ data in
@@ -48,19 +60,5 @@ class SearchGithubNetwork {
                     .just(.failure(.networkError))
             })
             .asSingle()
-    }
-    
-    private func decode(_ data: Data, type api: GithubAPI) throws -> GithubResultItem? {
-
-        do {
-            switch api {
-            case .user:
-                let item = try JSONDecoder().decode(User.self, from: data)
-                return GithubResultItem.user(result: item)
-            case .repository:
-                let item = try JSONDecoder().decode(Repository.self, from: data)
-                return GithubResultItem.repository(result: item)
-            }
-        }
     }
 }

@@ -10,11 +10,15 @@ import RxSwift
 import RxCocoa
 import RxDataSources
 
-typealias SectionOfSearchResult = SectionModel<GithubResultSection, GithubResultItem>
+typealias SectionOfSearchResult = SectionModel<String, GithubResultItem>
 
-enum GithubResultSection {
-    case user
-    case repository
+enum GithubResultSection: String {
+    case user = "User"
+    case repository = "Repository"
+    
+    var title: String {
+        return self.rawValue
+    }
 }
 
 enum GithubResultItem {
@@ -49,20 +53,16 @@ class SearchResultListView: UITableView {
     
     func bind(_ viewModel: SearchResultListViewModel) {
         
-        viewModel.cellData
-            .drive(self.rx.items(dataSource: searchResultDataSource))
-            .disposed(by: disposeBag)
-        
-        // 받아온 데이터 -> 테이블 뷰 셀에 바인딩
 //        viewModel.cellData
-//            .drive(self.rx.items) { tableView, row, data in
-//
-//                let indexPath = IndexPath(row: row, section: 0)
-//                guard let cell = tableView.dequeueReusableCell(withIdentifier: UserResultCell.identifier, for: indexPath) as? UserResultCell else { return UITableViewCell() }
-//                cell.configureData(data)
-//                return cell
-//            }
+//            .drive(self.rx.items(dataSource: searchResultDataSource))
 //            .disposed(by: disposeBag)
+//
+        let users = SearchResultListModel().itemsToCellData(userList.items)
+        let repos = SearchResultListModel().itemsToCellData(repositoryList.items)
+
+        Observable.just(users + repos)
+            .bind(to: self.rx.items(dataSource: searchResultDataSource))
+            .disposed(by: disposeBag)
     }
     
     private func attribute() {
@@ -91,5 +91,34 @@ extension SearchResultListView {
         
         cell.configureData(repository)
         return cell
+    }
+}
+
+var userList: APIResult = Dummy().load("users.json")
+var repositoryList: APIResult = Dummy().load("repository.json")
+
+class Dummy {
+    
+    func load(_ fileName: String) -> APIResult {
+        
+        let data: Data
+        let bundle = Bundle(for: type(of: self))
+        
+        guard let file = bundle.url(forResource: fileName, withExtension: nil) else {
+            fatalError("\(fileName)을 main bundle에서 불러올 수 없습니다.")
+        }
+        
+        do {
+            data = try Data(contentsOf: file)
+        } catch {
+            fatalError("\(fileName)을 main bundle에서 불러올 수 없습니다. \(error)")
+        }
+        
+        do {
+            let decoder = JSONDecoder()
+            return try decoder.decode(APIResult.self, from: data)
+        } catch {
+            fatalError("\(fileName)을 Items로 파싱할 수 없습니다.")
+        }
     }
 }

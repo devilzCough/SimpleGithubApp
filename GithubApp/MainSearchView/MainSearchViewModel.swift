@@ -30,10 +30,6 @@ struct MainSearchViewModel {
         let searchError = searchResult
             .compactMap(model.getSearchError)
         
-//        searchValue
-//            .bind(to: items)
-//            .disposed(by: disposeBag)
-        
         searchValue
             .bind(to: searchResultListViewModel.searchResultData)
             .disposed(by: disposeBag)
