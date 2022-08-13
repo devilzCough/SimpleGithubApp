@@ -53,16 +53,16 @@ class SearchResultListView: UITableView {
     
     func bind(_ viewModel: SearchResultListViewModel) {
         
-//        viewModel.cellData
-//            .drive(self.rx.items(dataSource: searchResultDataSource))
-//            .disposed(by: disposeBag)
-//
-        let users = SearchResultListModel().itemsToCellData(userList.items)
-        let repos = SearchResultListModel().itemsToCellData(repositoryList.items)
-
-        Observable.just(users + repos)
-            .bind(to: self.rx.items(dataSource: searchResultDataSource))
+        viewModel.cellData
+            .drive(self.rx.items(dataSource: searchResultDataSource))
             .disposed(by: disposeBag)
+//
+//        let users = SearchResultListModel().itemsToCellData(userList.items)
+//        let repos = SearchResultListModel().itemsToCellData(repositoryList.items)
+//
+//        Observable.just(users + repos)
+//            .bind(to: self.rx.items(dataSource: searchResultDataSource))
+//            .disposed(by: disposeBag)
     }
     
     private func attribute() {

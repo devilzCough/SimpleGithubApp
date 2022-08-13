@@ -12,13 +12,12 @@ struct MainSearchModel {
     
     let network = SearchGithubNetwork.shared
     
-    func search(_ query: String) -> Single<Result<Items, SearchNetworkError>> {
+    func search(_ query: String) -> Observable<Result<Items, SearchNetworkError>> {
         
         let result = Observable.from(GithubAPI.allCases)
             .concatMap { api in
-                network.searchList(about: query, type: api)
+                network.searchList(about: query, type: api).asObservable()
             }
-            .asSingle()
         
         return result
     }

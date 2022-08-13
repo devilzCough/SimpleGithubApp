@@ -16,8 +16,6 @@ struct MainSearchViewModel {
     let searchBarViewModel = SearchBarViewModel()
     let searchResultListViewModel = SearchResultListViewModel()
     
-//    private let items = PublishSubject<Items>()
-    
     init(model: MainSearchModel = MainSearchModel()) {
         
         let searchResult = searchBarViewModel.shouldLoadResult
