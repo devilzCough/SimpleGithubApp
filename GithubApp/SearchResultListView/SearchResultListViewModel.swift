@@ -19,6 +19,7 @@ struct SearchResultListViewModel {
     init(model: SearchResultListModel = SearchResultListModel()) {
         self.cellData = searchResultData
             .map(model.itemsToCellData)
+            .scan([], accumulator: +)
             .asDriver(onErrorJustReturn: [])
     }
 }

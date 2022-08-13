@@ -56,13 +56,6 @@ class SearchResultListView: UITableView {
         viewModel.cellData
             .drive(self.rx.items(dataSource: searchResultDataSource))
             .disposed(by: disposeBag)
-//
-//        let users = SearchResultListModel().itemsToCellData(userList.items)
-//        let repos = SearchResultListModel().itemsToCellData(repositoryList.items)
-//
-//        Observable.just(users + repos)
-//            .bind(to: self.rx.items(dataSource: searchResultDataSource))
-//            .disposed(by: disposeBag)
     }
     
     private func attribute() {
@@ -95,34 +88,5 @@ extension SearchResultListView {
         
         cell.configureData(repository)
         return cell
-    }
-}
-
-var userList: APIResult = Dummy().load("users.json")
-var repositoryList: APIResult = Dummy().load("repository.json")
-
-class Dummy {
-    
-    func load(_ fileName: String) -> APIResult {
-        
-        let data: Data
-        let bundle = Bundle(for: type(of: self))
-        
-        guard let file = bundle.url(forResource: fileName, withExtension: nil) else {
-            fatalError("\(fileName)을 main bundle에서 불러올 수 없습니다.")
-        }
-        
-        do {
-            data = try Data(contentsOf: file)
-        } catch {
-            fatalError("\(fileName)을 main bundle에서 불러올 수 없습니다. \(error)")
-        }
-        
-        do {
-            let decoder = JSONDecoder()
-            return try decoder.decode(APIResult.self, from: data)
-        } catch {
-            fatalError("\(fileName)을 Items로 파싱할 수 없습니다.")
-        }
     }
 }
