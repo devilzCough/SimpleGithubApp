@@ -19,7 +19,9 @@ struct SearchResultListViewModel {
     init(model: SearchResultListModel = SearchResultListModel()) {
         self.cellData = searchResultData
             .map(model.itemsToCellData)
-            .scan([], accumulator: +)
+            .scan([]) { lastValue, newValue in
+                return (lastValue + newValue).suffix(2)
+            }
             .asDriver(onErrorJustReturn: [])
     }
 }
