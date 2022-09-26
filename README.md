@@ -1,6 +1,7 @@
 # SimpleGithubApp
 
-검색 창에 키워드를 검색 시, 키워드와 관련된 User 및 Repository 리스트를 보여주는 프로젝트 (진행중)
+**ver. 1.0**
+검색 창에 키워드를 검색 시, 키워드와 관련된 User 및 Repository 리스트를 보여주는 프로젝트
 
 - 초기 기획
 
@@ -14,6 +15,7 @@
 
 
 - [노션 작업 일지](https://few-bat-a17.notion.site/1ff5ea153ca54bdeb42a839caa002002)
+- 개발 기록은 노션에 작성되어 있습니다.
 
 
 ### Skills
@@ -21,7 +23,6 @@
 - MVVM
 - RxSwift, RxCocoa
 - Github API
-- (계획에는 없었지만 RxTest에 대한 부분을 조금 시도해볼 예정) 
 
 ### 프로젝트 의의
 - 이전에는 모두 스토리보드를 사용하여 UI를 구성하였으나 코드와 SnapKit을 사용하여 UI를 구현
